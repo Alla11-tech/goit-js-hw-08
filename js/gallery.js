@@ -1,4 +1,4 @@
-// ===== КРОК 2 — Дані зображень =====
+/* Масив зображень */
 const images = [
   {
     preview: 'https://cdn.pixabay.com/photo/2019/05/14/16/43/rchids-4202820__480.jpg',
@@ -47,55 +47,42 @@ const images = [
   },
 ];
 
-// ===== КРОК 1 + 3 — Розмітка контейнера й елементів =====
+/* Генерація розмітки строго за шаблоном <li><a><img> */
 const gallery = document.querySelector('.gallery');
 
-const markup = images
-  .map(
-    ({ preview, original, description }) => `
-<li class="gallery-item">
-  <a class="gallery-link" href="${original}">
-    <img
-      class="gallery-image"
-      src="${preview}"
-      data-source="${original}"
-      alt="${description}"
-    />
-  </a>
-</li>`
-  )
-  .join('');
+const markup = images.map(({ preview, original, description }) => `
+  <li class="gallery-item">
+    <a class="gallery-link" href="${original}">
+      <img
+        class="gallery-image"
+        src="${preview}"
+        data-source="${original}"
+        alt="${description}"
+      />
+    </a>
+  </li>
+`).join('');
 
 gallery.insertAdjacentHTML('beforeend', markup);
 
-// ===== КРОК 4–8 — Делегування, блокування дефолту, модалка, Esc =====
+/* Делегування, заборона дефолту, модалка, заміна src, Esc */
 gallery.addEventListener('click', (evt) => {
-  // Якщо клік не по картинці галереї — ігноруємо (клік «між» елементами нічого не робить)
+  const isImg = evt.target.classList.contains('gallery-image');
+  if (!isImg) return;                 // клік між елементами 
+
+  evt.preventDefault();               // блокуємо перехід за <a href="...">
+
   const img = evt.target;
-  if (!img.classList.contains('gallery-image')) return;
+  const largeURL = img.dataset.source; // беремо велике зображення з data-source
 
-  // Блокуємо стандартне відкриття <a href="...">
-  evt.preventDefault();
+  const instance = basicLightbox.create(`
+    <img src="${largeURL}" alt="${img.alt}" width="1280">
+  `);
 
-  // Отримуємо велике зображення з data-source
-  const largeURL = img.dataset.source;
-
-  // Створюємо та показуємо модальне вікно
-  const instance = basicLightbox.create(
-    `<img src="${largeURL}" alt="${img.alt}" width="1280">`
-  );
-
-  // Обробник Escape для закриття модалки
-  const onEsc = (e) => {
-    if (e.key === 'Escape') instance.close();
-  };
+  const onEsc = (e) => { if (e.key === 'Escape') instance.close(); };
 
   instance.show(() => document.addEventListener('keydown', onEsc));
-
-  // При закритті — знімаємо слухач, щоб не текла пам'ять
-  instance.element().addEventListener(
-    'basiclightbox:close',
-    () => document.removeEventListener('keydown', onEsc),
-    { once: true }
-  );
+  instance.element().addEventListener('basiclightbox:close', () => {
+    document.removeEventListener('keydown', onEsc);
+  }, { once: true });
 });
