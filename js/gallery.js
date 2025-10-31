@@ -68,12 +68,12 @@ gallery.insertAdjacentHTML('beforeend', markup);
 /* Делегування, заборона дефолту, модалка, заміна src, Esc */
 gallery.addEventListener('click', (evt) => {
   const isImg = evt.target.classList.contains('gallery-image');
-  if (!isImg) return;                 // клік між елементами 
+  if (!isImg) return;                 // клік між елементами — нічого
 
   evt.preventDefault();               // блокуємо перехід за <a href="...">
 
   const img = evt.target;
-  const largeURL = img.dataset.source; // беремо велике зображення з data-source
+  const largeURL = img.dataset.source; // велике зображення з data-source
 
   const instance = basicLightbox.create(`
     <img src="${largeURL}" alt="${img.alt}" width="1280">

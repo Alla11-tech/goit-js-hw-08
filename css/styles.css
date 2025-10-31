@@ -1,12 +1,12 @@
-/* Стилізація під макет (без адаптиву) */
+/* Стилізація */
 .gallery {
   width: 1128px;
-  margin: 156px auto; /* верх/низ 156px, центровано */
+  margin: 156px auto;
   padding: 0;
   list-style: none;
 
   display: flex;
-  flex-wrap: wrap; /* 3 колонки × 3 рядки */
+  flex-wrap: wrap;
   justify-content: space-between;
   background: #fff;
 }
@@ -14,7 +14,7 @@
 .gallery-item {
   width: 360px;
   height: 200px;
-  margin-bottom: 24px; /* вертикальний відступ між рядами */
+  margin-bottom: 24px;
 }
 
 .gallery-link {
