@@ -1,4 +1,4 @@
-/* Масив зображень */
+// масив даних?//
 const images = [
   {
     preview: 'https://cdn.pixabay.com/photo/2019/05/14/16/43/rchids-4202820__480.jpg',
@@ -47,7 +47,8 @@ const images = [
   },
 ];
 
-/* Генерація розмітки строго за шаблоном <li><a><img> */
+// генеруємо розмітку СТРОГО за шаблоном <li><a><img>
+// Крок «одна операція рендеру»: map + join → insertAdjacentHTML
 const gallery = document.querySelector('.gallery');
 
 const markup = images.map(({ preview, original, description }) => `
@@ -65,20 +66,22 @@ const markup = images.map(({ preview, original, description }) => `
 
 gallery.insertAdjacentHTML('beforeend', markup);
 
-/* Делегування, заборона дефолту, модалка, заміна src, Esc */
-gallery.addEventListener('click', (evt) => {
-  const isImg = evt.target.classList.contains('gallery-image');
-  if (!isImg) return;                 // клік між елементами — нічого
+// делегування + модалка (перевірка через nodeName, без closest/find)
+gallery.addEventListener('click', (event) => {
+  // клік «між» елементами ігноруємо
+  if (event.target.nodeName !== 'IMG') return;
 
-  evt.preventDefault();               // блокуємо перехід за <a href="...">
+  // блокуємо дефолтний перехід по <a href>
+  event.preventDefault();
 
-  const img = evt.target;
-  const largeURL = img.dataset.source; // велике зображення з data-source
+  const img = event.target;
+  const largeURL = img.dataset.source;
 
   const instance = basicLightbox.create(`
     <img src="${largeURL}" alt="${img.alt}" width="1280">
   `);
 
+  // Esc для закриття
   const onEsc = (e) => { if (e.key === 'Escape') instance.close(); };
 
   instance.show(() => document.addEventListener('keydown', onEsc));
