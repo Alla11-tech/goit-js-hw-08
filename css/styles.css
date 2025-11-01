@@ -12,10 +12,10 @@
 
 .gallery-item {
   width: calc((100% - 48px) / 3); /* три колонки + 2 проміжки по 24px */
-  height: 200px;
 }
 
 .gallery-link {
+  display: block;
   text-decoration: none;
 }
 
