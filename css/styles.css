@@ -8,13 +8,13 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+  gap: 24px; /* додає проміжок між усіма картинками */
   background: #fff;
 }
 
 .gallery-item {
   width: 360px;
   height: 200px;
-  margin-bottom: 24px;
 }
 
 .gallery-link {
