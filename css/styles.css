@@ -7,13 +7,11 @@
 
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 24px; /* додає проміжок між усіма картинками */
-  background: #fff;
+  gap: 24px;
 }
 
 .gallery-item {
-  width: 360px;
+  width: calc((100% - 48px) / 3); /* три колонки + 2 проміжки по 24px */
   height: 200px;
 }
 
